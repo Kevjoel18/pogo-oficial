@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Pogo · Envíos Internacionales</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #0A192F;
+      --bg-card: rgba(17, 34, 64, 0.88);
+      --bg-inner: #0A192F;
+      --border: #1E293B;
+      --border-highlight: #263A63;
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --text-dim: #64748B;
+      --accent-green: #10B981;
+      --accent-blue: #2563EB;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 18px 16px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .glow-bg {
+      position: fixed;
+      width: 260px;
+      height: 260px;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.14) 0%, rgba(16, 185, 129, 0.05) 50%, transparent 70%);
+      top: 8%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 370px;
+      z-index: 1;
+      animation: fadeUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 14px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(17, 34, 64, 0.9);
+      border: 1px solid var(--border);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    .pulse-dot {
+      width: 6px;
+      height: 6px;
+      background-color: var(--accent-green);
+      border-radius: 50%;
+      box-shadow: 0 0 6px var(--accent-green);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .app-logo {
+      width: 54px;
+      height: 54px;
+      margin: 0 auto 10px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #162544 0%, #0A192F 100%);
+      border: 1px solid var(--border-highlight);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 800;
+      color: #FFF;
+      letter-spacing: 0.8px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .title {
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+      color: var(--text-main);
+    }
+
+    .subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 3px;
+      line-height: 1.4;
+    }
+
+    .main-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+      margin-bottom: 10px;
+    }
+
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-inner);
+      border: 1px solid #16243D;
+      border-radius: 10px;
+      padding: 9px 10px;
+      margin-bottom: 13px;
+    }
+
+    .meta-item {
+      text-align: center;
+      flex: 1;
+    }
+
+    .meta-item:not(:last-child) {
+      border-right: 1px solid var(--border);
+    }
+
+    .meta-label {
+      font-size: 9.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-dim);
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .meta-val {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .btn-download {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      background: var(--accent-blue);
+      color: #FFFFFF;
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 700;
+      padding: 13px 16px;
+      border-radius: 10px;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .btn-download:active {
+      transform: scale(0.98);
+      background: #1D4ED8;
+    }
+
+    .btn-note {
+      text-align: center;
+      font-size: 10.5px;
+      color: var(--text-dim);
+      margin-top: 8px;
+    }
+
+    .features-list {
+      margin-top: 13px;
+      padding-top: 13px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .feature-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .feature-badge {
+      width: 26px;
+      height: 26px;
+      border-radius: 7px;
+      background: var(--bg-inner);
+      border: 1px solid var(--border-highlight);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 800;
+      color: #60A5FA;
+      flex-shrink: 0;
+    }
+
+    .feature-text {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    .feature-text strong {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .guide-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .guide-header {
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--text-main);
+      padding: 12px 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .guide-arrow {
+      font-size: 10px;
+      color: var(--text-muted);
+      transition: transform 0.25s ease;
+    }
+
+    .guide-card.open .guide-arrow {
+      transform: rotate(180deg);
+    }
+
+    .guide-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      padding: 0 15px;
+    }
+
+    .guide-card.open .guide-body {
+      max-height: 240px;
+      padding-bottom: 13px;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 9px;
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .step-num {
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      background: #162544;
+      border: 1px solid var(--border-highlight);
+      color: #CBD5E1;
+      font-size: 9.5px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 14px;
+      font-size: 10.5px;
+      color: var(--text-dim);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow-bg"></div>
+
+  <main class="container">
+    <header class="header">
+      <div class="status-pill">
+        <span class="pulse-dot"></span>
+        <span>Descarga Oficial Verificada</span>
+      </div>
+      <div class="app-logo">POGO</div>
+      <h1 class="title">Pogo</h1>
+      <p class="subtitle">Envíos internacionales de Perú a Argentina</p>
+    </header>
+
+    <section class="main-card">
+      <div class="meta-row">
+        <div class="meta-item">
+          <div class="meta-label">Versión</div>
+          <!-- CUANDO SUBAS LA 1.1.1 SOLO CAMBIAS ESTE TEXTO -->
+          <div class="meta-val">v1.1.0</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Sistema</div>
+          <div class="meta-val">Android 8.0+</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Estado</div>
+          <div class="meta-val" style="color: #34D399;">Estable</div>
+        </div>
+      </div>
+
+      <!-- PEGA TU LINK DE GITHUB RELEASES ENTRE LAS COMILLAS DE href="" -->
+      <a href="https://github.com/Kevjoel18/pogo-oficial/releases/download/v1.1.0/Pogo-v1.1.0.apk" class="btn-download" id="download-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        <span id="btn-text">Descargar aplicación (APK)</span>
+      </a>
+
+      <div class="btn-note">
+        Conexión segura cifrada · Descarga directa sin anuncios
+      </div>
+
+      <div class="features-list">
+        <div class="feature-row">
+          <div class="feature-badge">PEN</div>
+          <div class="feature-text"><strong>Cuentas integradas:</strong> Cotiza y transfiere desde BCP, Interbank, Yape o Plin.</div>
+        </div>
+        <div class="feature-row">
+          <div class="feature-badge">BIO</div>
+          <div class="feature-text"><strong>Seguridad biométrica:</strong> Acceso protegido con huella digital o rostro.</div>
+        </div>
+        <div class="feature-row">
+          <div class="feature-badge">24/7</div>
+          <div class="feature-text"><strong>Seguimiento en vivo:</strong> Notificaciones automáticas sobre el estado de tu envío.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="guide-card open" id="guide-card">
+      <button class="guide-header" onclick="toggleGuide()">
+        <span>Pasos para instalar en tu teléfono</span>
+        <span class="guide-arrow">▼</span>
+      </button>
+      <div class="guide-body">
+        <div class="step-item">
+          <span class="step-num">1</span>
+          <span>Presiona <strong>Descargar aplicación (APK)</strong> y abre el archivo al finalizar.</span>
+        </div>
+        <div class="step-item">
+          <span class="step-num">2</span>
+          <span>Si tu navegador solicita permiso para instalar aplicaciones, actívalo y regresa.</span>
+        </div>
+        <div class="step-item">
+          <span class="step-num">3</span>
+          <span>Si aparece el aviso preventivo de Play Protect, toca en <strong>"Más detalles"</strong> y luego en <strong>"Instalar de todas formas"</strong>.</span>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      © 2026 Pogo · Envíos Internacionales
+    </footer>
+  </main>
+
+  <script>
+    function toggleGuide() {
+      document.getElementById('guide-card').classList.toggle('open');
+    }
+
+    const btn = document.getElementById('download-btn');
+    const btnText = document.getElementById('btn-text');
+    btn.addEventListener('click', () => {
+      btnText.textContent = 'Iniciando descarga...';
+      setTimeout(() => {
+        btnText.textContent = 'Descargar aplicación (APK)';
+      }, 3500);
+    });
+  </script>
+</body>
+  </html>
+  
