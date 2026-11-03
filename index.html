@@ -57,7 +57,7 @@
       pointer-events: none;
     }
 
-    /* --- BASE MÓVIL (DEFAULT) --- */
+    /* --- CONTENEDOR HERO PRINCIPAL --- */
     .container {
       width: 100%;
       max-width: 400px;
@@ -461,15 +461,167 @@
       margin-top: 1px;
     }
 
+
+    /* ========================================= */
+    /* --- NUEVAS SECCIONES EXTENDIDAS INFO  --- */
+    /* ========================================= */
+    .extended-container {
+      width: 100%;
+      max-width: 1100px;
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      z-index: 1;
+      animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    /* Grid de Cómo Funciona */
+    .how-it-works-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .step-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .step-card:hover {
+      transform: translateY(-5px);
+      border-color: #3B82F6;
+    }
+
+    .step-icon {
+      width: 60px;
+      height: 60px;
+      background: #162544;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin-bottom: 16px;
+      border: 1px solid var(--border-highlight);
+    }
+
+    .step-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .step-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Trust Banner */
+    .trust-banner {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(10, 25, 47, 0) 100%);
+      border: 1px solid var(--accent-green);
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .trust-title {
+      color: var(--accent-green);
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .trust-desc {
+      color: var(--text-main);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* FAQ Estilos nativos (sin JS) */
+    .faq-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    details {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    details[open] {
+      border-color: var(--accent-blue);
+    }
+
+    summary {
+      padding: 20px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-main);
+      cursor: pointer;
+      list-style: none; /* Elimina flecha por defecto */
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::after {
+      content: '+';
+      font-size: 20px;
+      color: var(--accent-blue);
+      font-weight: 400;
+      transition: transform 0.2s ease;
+    }
+
+    details[open] summary::after {
+      transform: rotate(45deg);
+    }
+
+    .faq-content {
+      padding: 0 20px 20px 20px;
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
     .footer {
       text-align: center;
-      margin-top: 20px;
-      font-size: 11px;
+      margin-top: 40px;
+      font-size: 12px;
       color: var(--text-dim);
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      width: 100%;
+      max-width: 1100px;
     }
 
     /* ========================================= */
-    /* --- VISTA ORDENADOR (ESTILO GLOBAL66) --- */
+    /* --- VISTA ORDENADOR (ESTILO CORPORATIVO) --- */
     /* ========================================= */
     @media (min-width: 900px) {
       body {
@@ -485,15 +637,15 @@
       }
 
       .container {
-        max-width: 1100px; /* Expande la caja a lo ancho */
+        max-width: 1100px; 
         display: grid;
-        grid-template-columns: 1.1fr 0.9fr; /* 2 columnas precisas */
+        grid-template-columns: 1.1fr 0.9fr; 
         column-gap: 80px;
         row-gap: 20px;
         align-items: start;
+        margin-bottom: 60px; /* Separación con info extra */
       }
 
-      /* COLUMNA IZQUIERDA */
       .header {
         grid-column: 1;
         grid-row: 1;
@@ -508,7 +660,6 @@
         margin-bottom: 0;
       }
 
-      /* COLUMNA DERECHA */
       .calc-card {
         grid-column: 2;
         grid-row: 1;
@@ -530,7 +681,6 @@
         margin-top: 0;
       }
 
-      /* AJUSTES VISUALES ORDENADOR */
       .app-logo {
         margin: 0 0 25px 0;
         width: 85px;
@@ -549,7 +699,6 @@
         font-size: 18px;
       }
 
-      /* ELEMENTOS EXCLUSIVOS DE ORDENADOR */
       .desktop-only {
         display: block;
       }
@@ -592,9 +741,14 @@
         letter-spacing: 0.5px;
       }
 
-      .footer {
-        grid-column: 1 / -1;
-        margin-top: 40px;
+      /* Grid 3 columnas en PC para Cómo funciona */
+      .how-it-works-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .section-title {
+        font-size: 32px;
+        margin-bottom: 40px;
       }
     }
   </style>
@@ -603,9 +757,9 @@
 
   <div class="glow-bg"></div>
 
+  <!-- SECCIÓN SUPERIOR: HERO Y CALCULADORA (Como ya estaba) -->
   <main class="container">
     
-    <!-- HEADER (Columna Izquierda Superior) -->
     <header class="header">
       <div class="status-pill">
         <span class="pulse-dot"></span>
@@ -615,10 +769,9 @@
       <h1 class="title">Pogo</h1>
       <p class="subtitle">Envíos internacionales de Perú a Argentina</p>
       
-      <!-- DESCRIPCIÓN Y MÉTRICAS (Solo se ven en PC) -->
       <p class="header-desc desktop-only">
         La plataforma financiera líder para conectar Perú y Argentina. 
-        Mueve tu dinero sin comisiones internacionales, cotiza con el mejor tipo de cambio del mercado en tiempo real y transfiere de forma segura desde tus cuentas locales <strong>(BCP, Interbank, Yape o Plin)</strong>.
+        Mueve tu dinero sin comisiones internacionales extra, cotiza con el mejor tipo de cambio del mercado en tiempo real y transfiere de forma segura desde tus cuentas locales <strong>(BCP, Interbank, Yape o Plin)</strong>.
       </p>
       
       <div class="trust-stats desktop-only">
@@ -628,16 +781,15 @@
         </div>
         <div class="stat">
           <span class="stat-val">Seguro</span>
-          <span class="stat-label">Cifrado de extremo a extremo</span>
+          <span class="stat-label">Cifrado Militar</span>
         </div>
         <div class="stat">
           <span class="stat-val">24/7</span>
-          <span class="stat-label">Soporte por WhatsApp</span>
+          <span class="stat-label">Soporte Humano</span>
         </div>
       </div>
     </header>
 
-    <!-- CALCULADORA (Columna Derecha Superior) -->
     <section class="calc-card">
       <div class="input-block">
         <span class="calc-label">Tú envías</span>
@@ -685,7 +837,6 @@
       </div>
     </section>
 
-    <!-- TARJETA DESCARGA (Columna Izquierda Inferior) -->
     <section class="main-card">
       <div class="meta-row">
         <div class="meta-item">
@@ -731,7 +882,6 @@
       </div>
     </section>
 
-    <!-- GUÍA DE INSTALACIÓN (Columna Derecha Inferior) -->
     <section class="guide-card open" id="guide-card">
       <button class="guide-header" onclick="toggleGuide()">
         <span>Pasos para instalar en tu teléfono</span>
@@ -752,13 +902,86 @@
         </div>
       </div>
     </section>
-
-    <footer class="footer">
-      © 2026 Pogo · Envíos Internacionales
-    </footer>
   </main>
 
-  <!-- LÓGICA DE LA INTERFAZ -->
+  <!-- ======================================================== -->
+  <!-- NUEVA SECCIÓN DE INFORMACIÓN EXTENDIDA (TIPO GLOBAL 66)  -->
+  <!-- ======================================================== -->
+  <div class="extended-container">
+    
+    <!-- SECCIÓN: CÓMO FUNCIONA -->
+    <div>
+      <h2 class="section-title">Envíos rápidos en 3 pasos</h2>
+      <div class="how-it-works-grid">
+        <div class="step-card">
+          <div class="step-icon">📱</div>
+          <h3 class="step-title">1. Cotiza en la App</h3>
+          <p class="step-desc">Descarga Pogo, ingresa el monto en Soles (PEN) y conoce al instante exactamente cuántos Pesos (ARS) llegarán a destino.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-icon">🏦</div>
+          <h3 class="step-title">2. Transfiere tus Soles</h3>
+          <p class="step-desc">Transfiere de manera local a nuestras cuentas autorizadas (BCP, Interbank, Yape o Plin) sin pagar comisiones internacionales.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-icon">🇦🇷</div>
+          <h3 class="step-title">3. Dinero entregado</h3>
+          <p class="step-desc">En cuestión de minutos, realizamos la transferencia en Argentina directo al CBU/CVU o Alias que proporcionaste.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN: GARANTÍA Y CONFIANZA -->
+    <div class="trust-banner">
+      <h2 class="trust-title">Operaciones 100% Protegidas</h2>
+      <p class="trust-desc">
+        En Pogo priorizamos la seguridad de tu dinero y de tus datos. Nuestra aplicación cuenta con autenticación cifrada por Google Firebase y opciones avanzadas de seguridad biométrica (Huella/FaceID) implementadas nativamente en el dispositivo. No almacenamos tus credenciales bancarias.
+      </p>
+    </div>
+
+    <!-- SECCIÓN: PREGUNTAS FRECUENTES -->
+    <div>
+      <h2 class="section-title">Preguntas Frecuentes</h2>
+      <div class="faq-container">
+        
+        <details>
+          <summary>¿Cuánto tiempo tarda en llegar el envío?</summary>
+          <div class="faq-content">
+            La mayoría de las operaciones se completan en un rango de <strong>15 a 30 minutos</strong> dentro de nuestro horario de atención (Lunes a Sábados). En caso de saturación bancaria, te notificaremos en tiempo real a través de la aplicación.
+          </div>
+        </details>
+
+        <details>
+          <summary>¿Existen comisiones ocultas?</summary>
+          <div class="faq-content">
+            <strong>No.</strong> A diferencia de los bancos tradicionales, en Pogo no hay cargos sorpresa. La calculadora te muestra el monto exacto final que tu contacto recibirá en Argentina. Nuestro margen ya está incluido en el tipo de cambio que ves en pantalla.
+          </div>
+        </details>
+
+        <details>
+          <summary>¿A qué bancos puedo enviar en Argentina?</summary>
+          <div class="faq-content">
+            Transferimos a <strong>cualquier entidad financiera o billetera virtual</strong> en la República Argentina que posea un CBU, CVU o Alias activo (Mercado Pago, Brubank, Banco Galicia, Santander, Ualá, etc.). También ofrecemos la opción de retiro coordinado en efectivo vía WhatsApp.
+          </div>
+        </details>
+
+        <details>
+          <summary>¿Por qué debo descargar un APK?</summary>
+          <div class="faq-content">
+            Actualmente nos encontramos distribuyendo nuestra versión de acceso anticipado (Beta) directamente a nuestros usuarios para garantizar una comunicación estrecha y comisiones más bajas, mientras finalizamos los trámites para nuestro despliegue público oficial en las tiendas de aplicaciones.
+          </div>
+        </details>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER FINAL -->
+  <footer class="footer">
+    © 2026 Pogo · Plataforma de Intermediación de Divisas · Todos los derechos reservados
+  </footer>
+
   <script>
     function toggleGuide() {
       document.getElementById('guide-card').classList.toggle('open');
@@ -774,7 +997,6 @@
     });
   </script>
 
-  <!-- LÓGICA DE FIREBASE Y COTIZADOR WEB -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
     import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore.js";
