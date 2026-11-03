@@ -161,14 +161,17 @@
       align-items: center;
     }
 
+    /* Modificado: flex: 1 para ocupar todo el espacio y transition para el ajuste de fuente */
     .calc-input {
       background: transparent;
       border: none;
       color: #FFF;
       font-size: 38px;
       font-weight: 800;
-      width: 60%;
+      flex: 1;
+      margin-right: 15px;
       font-family: inherit;
+      transition: font-size 0.15s ease;
     }
     
     .calc-input:focus {
@@ -179,14 +182,17 @@
       color: #4B5563;
     }
 
+    /* Modificado: flex: 1 para el resultado y transition */
     .calc-result {
       color: var(--accent-green);
       font-size: 38px;
       font-weight: 800;
-      width: 60%;
+      flex: 1;
+      margin-right: 15px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      transition: font-size 0.15s ease;
     }
 
     .currency-badge {
@@ -197,6 +203,7 @@
       border-radius: 16px;
       border: 1px solid #334155;
       gap: 6px;
+      flex-shrink: 0; /* Asegura que la bandera no se aplaste */
     }
 
     .flag {
@@ -623,9 +630,22 @@
     const tasaLabel = document.getElementById('tasa-referencial');
     let debounceTimer;
 
-    // AHORA PERMITE QUE EL CAMPO ESTÉ VACÍO TOTALMENTE
+    // NUEVO: Función inteligente que achica la letra si el número es muy largo
+    function ajustarFuente(elemento, texto) {
+      const longitud = texto.length;
+      if (longitud > 11) {
+        elemento.style.fontSize = '22px';
+      } else if (longitud > 9) {
+        elemento.style.fontSize = '26px';
+      } else if (longitud > 7) {
+        elemento.style.fontSize = '32px';
+      } else {
+        elemento.style.fontSize = '38px';
+      }
+    }
+
     function formatearNumero(numStr) {
-      if (!numStr) return ''; // <--- Cambiado de '0' a ''
+      if (!numStr) return ''; 
       const entero = numStr.toString().split('.')[0];
       return entero.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
@@ -660,6 +680,7 @@
 
     async function cotizar(montoSoles) {
       divPesos.innerHTML = '<span class="loading-text">Cotizando...</span>';
+      ajustarFuente(divPesos, 'Cotizando...');
       
       try {
         const respuesta = await fetch(`https://pogo-bot-gg1t.onrender.com/api/tasa?monto=${montoSoles}`);
@@ -678,28 +699,37 @@
           }
 
           let montoFinal = Math.max(0, montoBruto - margenAAplicar);
-          divPesos.textContent = formatearNumero(montoFinal.toString());
+          const pesosFormateados = formatearNumero(montoFinal.toString());
+          divPesos.textContent = pesosFormateados;
+          
+          // Ajusta la letra del resultado automáticamente
+          ajustarFuente(divPesos, pesosFormateados);
         } else {
           divPesos.innerHTML = '<span class="error-text">Error en cálculo</span>';
+          ajustarFuente(divPesos, 'Error en cálculo');
         }
       } catch (error) {
         divPesos.innerHTML = '<span class="error-text">Fallo de red</span>';
+        ajustarFuente(divPesos, 'Fallo de red');
       }
     }
 
     inputSoles.addEventListener('input', (e) => {
-      // Limpia comas y letras
       let valorLimpio = e.target.value.replace(/,/g, '').replace(/[^0-9]/g, '');
 
-      // ELIMINA CEROS A LA IZQUIERDA SI EL USUARIO SIGUE ESCRIBIENDO
       if (valorLimpio.length > 1) {
         valorLimpio = valorLimpio.replace(/^0+(?=\d)/, '');
       }
 
-      e.target.value = formatearNumero(valorLimpio);
+      const valorFormateado = formatearNumero(valorLimpio);
+      e.target.value = valorFormateado;
+      
+      // Ajusta la letra de lo que tú envías (soles) automáticamente
+      ajustarFuente(inputSoles, valorFormateado);
 
       if (valorLimpio === '' || parseFloat(valorLimpio) <= 0) {
         divPesos.textContent = '0';
+        ajustarFuente(divPesos, '0');
         clearTimeout(debounceTimer);
         return;
       }
