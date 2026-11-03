@@ -69,7 +69,6 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* --- AJUSTES DEL HEADER --- */
     .header {
       display: flex;
       flex-direction: column;
@@ -133,7 +132,6 @@
       line-height: 1.4;
     }
 
-    /* --- ESTILOS DE LA NUEVA CALCULADORA WEB --- */
     .calc-card {
       background: #112240;
       border: 1px solid var(--border);
@@ -262,7 +260,6 @@
       font-weight: 600;
     }
 
-    /* --- RESTO DE LOS ESTILOS EXISTENTES --- */
     .main-card {
       background: var(--bg-card);
       backdrop-filter: blur(12px);
@@ -461,7 +458,6 @@
   <div class="glow-bg"></div>
 
   <main class="container">
-    <!-- ESTRUCTURA DEL HEADER CORREGIDA -->
     <header class="header">
       <div class="status-pill">
         <span class="pulse-dot"></span>
@@ -472,7 +468,6 @@
       <p class="subtitle">Envíos internacionales de Perú a Argentina</p>
     </header>
 
-    <!-- LA CALCULADORA WEB SINCRONIZADA CON FIREBASE -->
     <section class="calc-card">
       <div class="input-block">
         <span class="calc-label">Tú envías</span>
@@ -520,7 +515,6 @@
       </div>
     </section>
 
-    <!-- SECCIÓN DE DESCARGA -->
     <section class="main-card">
       <div class="meta-row">
         <div class="meta-item">
@@ -566,7 +560,6 @@
       </div>
     </section>
 
-    <!-- GUÍA DE INSTALACIÓN -->
     <section class="guide-card open" id="guide-card">
       <button class="guide-header" onclick="toggleGuide()">
         <span>Pasos para instalar en tu teléfono</span>
@@ -593,7 +586,6 @@
     </footer>
   </main>
 
-  <!-- LÓGICA DE LA INTERFAZ -->
   <script>
     function toggleGuide() {
       document.getElementById('guide-card').classList.toggle('open');
@@ -609,7 +601,6 @@
     });
   </script>
 
-  <!-- LÓGICA DE FIREBASE Y COTIZADOR WEB -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
     import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore.js";
@@ -632,8 +623,9 @@
     const tasaLabel = document.getElementById('tasa-referencial');
     let debounceTimer;
 
+    // AHORA PERMITE QUE EL CAMPO ESTÉ VACÍO TOTALMENTE
     function formatearNumero(numStr) {
-      if (!numStr) return '0';
+      if (!numStr) return ''; // <--- Cambiado de '0' a ''
       const entero = numStr.toString().split('.')[0];
       return entero.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
@@ -696,7 +688,14 @@
     }
 
     inputSoles.addEventListener('input', (e) => {
-      let valorLimpio = e.target.value.replace(/,/g, '').replace(/[^0-9.]/g, '');
+      // Limpia comas y letras
+      let valorLimpio = e.target.value.replace(/,/g, '').replace(/[^0-9]/g, '');
+
+      // ELIMINA CEROS A LA IZQUIERDA SI EL USUARIO SIGUE ESCRIBIENDO
+      if (valorLimpio.length > 1) {
+        valorLimpio = valorLimpio.replace(/^0+(?=\d)/, '');
+      }
+
       e.target.value = formatearNumero(valorLimpio);
 
       if (valorLimpio === '' || parseFloat(valorLimpio) <= 0) {
